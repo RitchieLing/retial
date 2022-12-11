@@ -263,8 +263,8 @@ def pretty(low, high, n):
         return np.sign(x) * nf * 10.**exp
     # pretty breakpoints
     d     = abs(nicenumber((high-low)/(n-1)))
-    miny  = int(np.floor(low  / d) * d)
-    maxy  = int(np.ceil (high / d) * d)
+    miny  = np.floor(low  / d) * d
+    maxy  = np.ceil (high / d) * d
     return np.arange(miny, maxy+0.5*d, d)
 # required in woebin2 # return initial binning
 def woebin2_init_bin(dtm, init_count_distr, breaks, spl_val):
@@ -953,7 +953,7 @@ def woebin(dt, y, x=None,
     # loop on xs
     if (no_cores is None) or (no_cores < 1):
         all_cores = mp.cpu_count() - 1
-        no_cores = int(np.ceil(xs_len/5 if xs_len/5 < all_cores else all_cores*0.9))
+        no_cores = np.ceil(xs_len/5 if xs_len/5 < all_cores else all_cores*0.9)
     if platform.system() == 'Windows': 
         no_cores = 1
             
@@ -1149,7 +1149,7 @@ def woebin_ply(dt, bins, no_cores=None, print_step=0, replace_blank=True, **kwar
     # loop on xs
     if (no_cores is None) or (no_cores < 1):
         all_cores = mp.cpu_count() - 1
-        no_cores = int(np.ceil(xs_len/5 if xs_len/5 < all_cores else all_cores*0.9))
+        no_cores = np.ceil(xs_len/5 if xs_len/5 < all_cores else all_cores*0.9)
     if platform.system() == 'Windows': 
         no_cores = 1 
             
@@ -1207,13 +1207,13 @@ def plot_bin(binx, title, show_iv):
     matplotlib fig object
     '''
     # y_right_max
-    y_right_max = int(np.ceil(binx['badprob'].max()*10))
+    y_right_max = np.ceil(binx['badprob'].max()*10)
     if y_right_max % 2 == 1: y_right_max=y_right_max+1
     if y_right_max - binx['badprob'].max()*10 <= 0.3: y_right_max = y_right_max+2
     y_right_max = y_right_max/10
     if y_right_max>1 or y_right_max<=0 or y_right_max is np.nan or y_right_max is None: y_right_max=1
     ## y_left_max
-    y_left_max = int(np.ceil(binx['count_distr'].max()*10)/10)
+    y_left_max = np.ceil(binx['count_distr'].max()*10)/10
     if y_left_max>1 or y_left_max<=0 or y_left_max is np.nan or y_left_max is None: y_left_max=1
     # title
     title_string = binx.loc[0,'variable']+"  (iv:"+str(round(binx.loc[0,'total_iv'],4))+")" if show_iv else binx.loc[0,'variable']
