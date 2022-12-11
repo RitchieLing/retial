@@ -310,8 +310,8 @@ def perf_eva(label, pred, title=None, groupnum=None, plot_type=["ks", "roc"], sh
     ### export plot ### 
     if show_plot:
         plist = ["eva_p"+i+'(df_'+i+',title)' for i in plot_type]
-        subplot_nrows = np.ceil(len(plist)/2)
-        subplot_ncols = np.ceil(len(plist)/subplot_nrows)
+        subplot_nrows = int(np.ceil(len(plist)/2))
+        subplot_ncols = int(np.ceil(len(plist)/subplot_nrows))
         
         fig = plt.figure()
         for i in np.arange(len(plist)):
@@ -541,7 +541,7 @@ def perf_psi(score, label=None, title=None, x_limits=None, x_tick_break=50, show
             # ax2.tick_params(axis='y', colors='blue')
             # ax1.set_yticks(np.arange(0, np.nanmax(distr_prob['distr'].values), 0.2))
             # ax2.set_yticks(np.arange(0, 1+0.2, 0.2))
-            ax1.set_ylim([0,np.ceil(np.nanmax(distr_prob['distr'].values)*10)/10])
+            ax1.set_ylim([0,int(np.ceil(np.nanmax(distr_prob['distr'].values)*10)/10)])
             ax2.set_ylim([0,1])
             plt.xticks(ind+width/2, distr_prob.index)
             plt.title(title_string, loc='left')
